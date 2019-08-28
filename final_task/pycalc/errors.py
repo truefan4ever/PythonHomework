@@ -1,5 +1,4 @@
 from . import config
-from inspect import signature
 
 
 def empty_error(splitted_str: list) -> list:
@@ -153,9 +152,12 @@ def arguments_error(splitted_str: list) -> list:
                     return splitted_str
 
         else:
-            sig = signature(config.FUNCTIONS[FUNC_NAME][1])
-            params = sig.parameters
-            num_of_args = len(params)
+            try:
+                # checking if the function has 2 arguments
+                config.FUNCTIONS[FUNC_NAME][1](1, 1)
+                num_of_args = 2
+            except:
+                num_of_args = 1
 
             if ',' in list_of_args:
                 num_of_comma = list_of_args.count(',')

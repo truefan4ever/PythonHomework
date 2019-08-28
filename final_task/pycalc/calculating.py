@@ -1,4 +1,3 @@
-from inspect import signature
 from . import config
 
 
@@ -28,15 +27,14 @@ def calculate(reverse_polish_notation: list) -> str:
                     argument = stack.pop()
                     args = [argument]
             else:
-                sig = signature(config.FUNCTIONS_AND_OPERATORS[item][1])
-                params = sig.parameters
-                num_of_args = len(params)
-                if num_of_args == 1:
-                    argument = stack.pop()
-                    args = [argument]
-                elif num_of_args == 2:
+                try:
+                    # checking if the function has 2 arguments
+                    config.FUNCTIONS_AND_OPERATORS[item][1](1, 1)
                     second_argument, first_argument = stack.pop(), stack.pop()
                     args = [first_argument, second_argument]
+                except:
+                    argument = stack.pop()
+                    args = [argument]
             try:
                 stack.append(config.FUNCTIONS_AND_OPERATORS[item][1](*args))
             except ZeroDivisionError:

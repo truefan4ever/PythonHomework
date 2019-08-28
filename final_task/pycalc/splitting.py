@@ -10,7 +10,7 @@ def string_splitting(string: str) -> list:
     Converts all numbers to float, deletes spaces between elements,
     converts the expression to standart. Returns splitted list.
     """
-    splitted_str = re.split("([/\*\-\+\^%>=<\(\)!,\s])", string)
+    splitted_str = re.split(r"([/\*\-\+\^%>=<\(\)!,\s])", string)
     help_list = []
     OPERATORS = ("(", ",", "*", "/", "^", "//", "%",
                  ">", ">=", "<", "<=", "==", "!=")

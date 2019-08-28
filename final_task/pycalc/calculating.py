@@ -32,7 +32,7 @@ def calculate(reverse_polish_notation: list) -> str:
                     config.FUNCTIONS_AND_OPERATORS[item][1](1, 1)
                     second_argument, first_argument = stack.pop(), stack.pop()
                     args = [first_argument, second_argument]
-                except:
+                except TypeError:
                     argument = stack.pop()
                     args = [argument]
             try:

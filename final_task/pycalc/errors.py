@@ -156,7 +156,7 @@ def arguments_error(splitted_str: list) -> list:
                 # checking if the function has 2 arguments
                 config.FUNCTIONS[FUNC_NAME][1](1, 1)
                 num_of_args = 2
-            except:
+            except TypeError:
                 num_of_args = 1
 
             if ',' in list_of_args:

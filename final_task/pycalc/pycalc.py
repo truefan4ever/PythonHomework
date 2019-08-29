@@ -12,8 +12,8 @@ def main():
     print(calculate(transformation(errors(string_splitting(parser())))))
 
 
-def testing(string: str) -> float or bool:
-    return(calculate(transformation(errors(string_splitting(string)))))
+def testing(expression: str) -> float or bool:
+    return(calculate(transformation(errors(string_splitting(expression)))))
 
 
 if __name__ == '__main__':

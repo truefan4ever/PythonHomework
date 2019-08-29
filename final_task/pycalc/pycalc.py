@@ -12,7 +12,7 @@ def main():
     print(calculate(transformation(errors(string_splitting(parser())))))
 
 
-def testing(expression: str) -> float or bool:
+def unit_testing(expression: str) -> float or bool:
     return(calculate(transformation(errors(string_splitting(expression)))))
 
 

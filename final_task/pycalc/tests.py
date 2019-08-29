@@ -1,7 +1,7 @@
 import unittest
 import math
 from .pycalc import testing
-from .reverse_pol_not import method
+from .reverse_polish_notation import transformation
 from .splitting import string_splitting
 
 
@@ -40,20 +40,22 @@ class TestPyCalc(unittest.TestCase):
                           3.141592653589793, ')', ')'])
 
     def test_rev_pol_not(self):
-        self.assertEqual(method([1.0, '+', 1.0]), [1.0, 1.0, '+'])
-        self.assertEqual(method(['cos', '(', 'neg', 'sin', '(',
-                                 3.141592653589793, ')', ')']),
+        self.assertEqual(transformation([1.0, '+', 1.0]), [1.0, 1.0, '+'])
+        self.assertEqual(transformation(['cos', '(', 'neg', 'sin', '(',
+                                         3.141592653589793, ')', ')']),
                          [3.141592653589793, 'sin', 'neg', 'cos'])
-        self.assertEqual(method(['pow', '(', -2.0, ',', 'sqrt', '(',
-                                 'pow', '(', 2.0, ',', 2.0, ')', ')', ')']),
+        self.assertEqual(transformation(['pow', '(', -2.0, ',', 'sqrt',
+                                         '(', 'pow', '(', 2.0, ',', 2.0,
+                                         ')', ')', ')']),
                          [-2.0, 2.0, 2.0, 'pow', 'sqrt', 'pow'])
-        self.assertEqual(method([3.0, '^', 2.0, '>=',
-                                 'factorial', '(', 3.0, ')']),
+        self.assertEqual(transformation([3.0, '^', 2.0, '>=',
+                                         'factorial', '(', 3.0, ')']),
                          [3.0, 2.0, '^', 3.0, 'factorial', '>='])
-        self.assertEqual(method([1.0, '+', 1.0]), [1.0, 1.0, '+'])
-        self.assertEqual(method(['abs', '(', -4.0, ')']), [-4.0, 'abs'])
-        self.assertEqual(method(['cos', '(', 'sin', '(',
-                                 3.141592653589793, ')', ')']),
+        self.assertEqual(transformation([1.0, '+', 1.0]), [1.0, 1.0, '+'])
+        self.assertEqual(transformation(['abs', '(', -4.0, ')']),
+                         [-4.0, 'abs'])
+        self.assertEqual(transformation(['cos', '(', 'sin', '(',
+                                         3.141592653589793, ')', ')']),
                          [3.141592653589793, 'sin', 'cos'])
 
     def test_arithmetic(self):

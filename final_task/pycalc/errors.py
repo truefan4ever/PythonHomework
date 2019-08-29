@@ -8,8 +8,7 @@ def empty_error(splitted_str: list) -> list:
     Otherwise returns the splitted list.
     """
     if not splitted_str:
-        print('ERROR: string should not be empty.')
-        exit(1)
+        raise ValueError('ERROR: string should not be empty.')
     else:
         return splitted_str
 
@@ -22,11 +21,12 @@ def spaces_between_operators(splitted_str: list) -> list:
     """
     OPERATORS = ('>', '<', '/', '!', '=', '*')
     for index, value in enumerate(splitted_str):
-        if (value in OPERATORS and index + 1 != len(splitted_str) - 1 and
+        if (value in OPERATORS and index != len(splitted_str) - 1 and
+            index + 1 != len(splitted_str) - 1 and
                 splitted_str[index + 1] == " " and
                 splitted_str[index + 2] in OPERATORS):
-            print("ERROR: it should not be a spece between operators")
-            exit(1)
+            raise ValueError("ERROR: it should not be a "
+                             "space between operators")
 
 
 def brackets_error(splitted_str: list) -> list:
@@ -37,8 +37,7 @@ def brackets_error(splitted_str: list) -> list:
     Otherwise returns the splitted list.
     """
     if splitted_str.count('(') != splitted_str.count(')'):
-        print("ERROR: brackets are not balanced")
-        exit(1)
+        raise ValueError("ERROR: brackets are not balanced")
     else:
         return splitted_str
 
@@ -52,8 +51,7 @@ def unknown_function_error(splitted_str: list) -> list:
     for item in splitted_str:
         if (type(item) != float and item not in config.FUNCTIONS and
                 item not in "()"):
-            print(f"ERROR: unknown function '{item}'")
-            exit(1)
+            raise ValueError(f"ERROR: unknown function '{item}'")
         else:
             return splitted_str
 
@@ -70,31 +68,31 @@ def operands_error(splitted_str: list) -> list:
     for index, value in enumerate(splitted_str):
         if (type(value) == float and index != len(splitted_str) - 1 and
                 type(splitted_str[index + 1]) == float):
-            print("ERROR: operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: operator must be "
+                             "between two operands")
     if len(splitted_str) == 2:
         if type(splitted_str[0]) == float and splitted_str[1] in ARITHMETIC:
-            print("ERROR: arithmetic operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: arithmetic operator must be "
+                             "between two operands")
         elif (splitted_str[0] in ('*', '/', '//', '%', '^') and
                 type(splitted_str[1]) == float):
-            print("ERROR: arithmetic operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: arithmetic operator must be "
+                             "between two operands")
         elif splitted_str[0] in COMPARISON and type(splitted_str[1]) == float:
-            print("ERROR: comparison operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: comparison operator must be "
+                             "between two operands")
         elif type(splitted_str[0]) == float and splitted_str[1] in COMPARISON:
-            print("ERROR: comparison operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: comparison operator must be "
+                             "between two operands")
         elif splitted_str[0] in COMPARISON and splitted_str[1] in COMPARISON:
-            print("ERROR: comparison operator must be between two operands")
-            exit(1)
+            raise ValueError("ERROR: comparison operator must be "
+                             "between two operands")
         else:
             return splitted_str
     elif len(splitted_str) == 1:
         if splitted_str[0] in config.FUNCTIONS_AND_OPERATORS:
-            print("ERROR: operator must be between two operands or func(args)")
-            exit(1)
+            raise ValueError("ERROR: operator must be between "
+                             "two operands or func(args)")
         else:
             return splitted_str
     else:
@@ -112,11 +110,12 @@ def arguments_error(splitted_str: list) -> list:
     FLAG = False
     COUNTER_ARGS = 0
     for item in splitted_str:
-        if item in config.FUNCTIONS:
+        if type(item) == str and item in config.FUNCTIONS:
             FLAG = True
     if FLAG:
         for index, value in enumerate(splitted_str):
-            if value in config.FUNCTIONS and splitted_str[index + 1] == "(":
+            if (type(value) == str and value in config.FUNCTIONS and
+                    splitted_str[index + 1] == "("):
                 first_arg = index + 2
                 FUNC_NAME = value
             elif value == ")":
@@ -129,25 +128,24 @@ def arguments_error(splitted_str: list) -> list:
                 num_of_comma = list_of_args.count(',')
                 if num_of_comma == 1:
                     if list_of_args[0] == ',' and len(list_of_args) >= 2:
-                        print(f"ERROR: {FUNC_NAME} missed the first argument")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed "
+                                         "the first argument")
                     elif list_of_args[-1] == ',' and len(list_of_args) >= 2:
-                        print(f"ERROR: {FUNC_NAME} missed the second argument")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed "
+                                         "the second argument")
                     elif list_of_args[0] == ',' and len(list_of_args) == 1:
-                        print(f"ERROR: {FUNC_NAME} missed two arguments")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed "
+                                         "two arguments")
                     else:
                         return splitted_str
 
                 else:
-                    print(f"ERROR: {FUNC_NAME} takes exactly 1 or 2 arguments")
-                    exit(1)
+                    raise ValueError(f"ERROR: {FUNC_NAME} takes exactly 1 "
+                                     "or 2 arguments")
             else:
                 if not list_of_args:
-                    print(f'ERROR: {FUNC_NAME} takes exactly 1 or 2 arguments \
-                        (0 given)')
-                    exit(1)
+                    raise ValueError(f'ERROR: {FUNC_NAME} takes exactly 1 '
+                                     'or 2 arguments(0 given)')
                 else:
                     return splitted_str
 
@@ -164,40 +162,38 @@ def arguments_error(splitted_str: list) -> list:
 
                 if num_of_comma == 1:
                     if list_of_args[0] == ',' and len(list_of_args) >= 2:
-                        print(f"ERROR: {FUNC_NAME} missed the first argument")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed the "
+                                         "first argument")
                     elif list_of_args[-1] == ',' and len(list_of_args) >= 2:
-                        print(f"ERROR: {FUNC_NAME} missed the second argument")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed the "
+                                         "second argument")
                     elif list_of_args[0] == ',' and len(list_of_args) == 1:
-                        print(f"ERROR: {FUNC_NAME} missed two arguments")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} missed two "
+                                         "arguments")
                     else:
                         COUNTER_ARGS = 2
                         if COUNTER_ARGS != num_of_args:
-                            print(f"ERROR: {FUNC_NAME} takes exactly \
-                                {num_of_args} argument(s) \
-                                ({COUNTER_ARGS} given)")
-                            exit(1)
+                            raise ValueError(f"ERROR: {FUNC_NAME} takes "
+                                             f"exactly {num_of_args} "
+                                             f"argument(s) ({COUNTER_ARGS} "
+                                             "given)")
                         else:
                             return splitted_str
 
                 else:
-                    print(f"ERROR: {FUNC_NAME} takes exactly {num_of_args} \
-                        argument(s)")
-                    exit(1)
+                    raise ValueError(f"ERROR: {FUNC_NAME} takes exactly "
+                                     f"{num_of_args} argument(s)")
 
             else:
                 if not list_of_args:
-                    print(f'ERROR: {FUNC_NAME} takes exactly {num_of_args} \
-                        argument(s) (0 given)')
-                    exit(1)
+                    raise ValueError(f'ERROR: {FUNC_NAME} takes exactly '
+                                     f'{num_of_args} argument(s) (0 given)')
                 else:
                     COUNTER_ARGS = 1
                     if COUNTER_ARGS != num_of_args:
-                        print(f"ERROR: {FUNC_NAME} takes exactly \
-                            {num_of_args} argument(s) ({COUNTER_ARGS} given)")
-                        exit(1)
+                        raise ValueError(f"ERROR: {FUNC_NAME} takes exactly "
+                                         f"{num_of_args} argument(s) "
+                                         f"({COUNTER_ARGS} given)")
                     else:
                         return splitted_str
 

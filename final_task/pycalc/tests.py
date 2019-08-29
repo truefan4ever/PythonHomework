@@ -6,20 +6,6 @@ from .splitting import string_splitting
 
 
 class TestPyCalc(unittest.TestCase):
-    def test_errors(self):
-        self.assertRaises(ValueError, testing, '')
-        self.assertRaises(ValueError, testing, '1+')
-        self.assertRaises(ValueError, testing, 'pow(2,3,4)')
-        self.assertRaises(ValueError, testing, '((2*3)+4')
-        self.assertRaises(ValueError, testing, 'factorial(1,2)')
-        self.assertRaises(ValueError, testing, 'pow(1)')
-        self.assertRaises(ValueError, testing, '2 > = 1')
-        self.assertRaises(ValueError, testing, 'fraps(-4)')
-        self.assertRaises(ValueError, testing, '1 123')
-        self.assertRaises(ValueError, testing, '1>=')
-        self.assertRaises(ValueError, testing, '<2')
-        self.assertRaises(ValueError, testing, '==')
-
     def test_splitting(self):
         self.assertEqual(string_splitting("1+1"), [1.0, '+', 1.0])
         self.assertEqual(string_splitting("cos(-sin(pi))"),

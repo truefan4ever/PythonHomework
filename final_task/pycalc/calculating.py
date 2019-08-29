@@ -38,10 +38,13 @@ def calculate(reverse_polish_notation: list) -> str:
             try:
                 stack.append(config.FUNCTIONS_AND_OPERATORS[item][1](*args))
             except ZeroDivisionError:
-                raise ValueError('ERROR: you should not devide by zero')
+                print('ERROR: you should not devide by zero')
+                exit(1)
             except ValueError:
-                raise ValueError("ERROR: check the data")
+                print("ERROR: check the data")
+                exit(1)
             except TypeError:
-                raise ValueError("ERROR :check the data")
+                print("ERROR :check the data")
+                exit(1)
 
     return stack[-1]

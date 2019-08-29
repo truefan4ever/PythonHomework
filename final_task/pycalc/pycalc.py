@@ -13,7 +13,7 @@ def main():
 
 
 def testing(string: str) -> float or bool:
-    return(calculate(transformation(errors(string_splitting(parser())))))
+    return(calculate(transformation(errors(string_splitting(string)))))
 
 
 if __name__ == '__main__':

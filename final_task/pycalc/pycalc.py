@@ -12,5 +12,9 @@ def main():
     print(calculate(transformation(errors(string_splitting(parser())))))
 
 
+def testing(string: str):
+    return(calculate(transformation(errors(string_splitting(parser())))))
+
+
 if __name__ == '__main__':
     main()

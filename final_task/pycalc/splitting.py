@@ -88,20 +88,41 @@ def string_splitting(string: str) -> list:
             splitted_str[index + 2] = float('-' + str(splitted_str[index + 2]))
             splitted_str.pop(index + 1)
 
+        elif (value in OPERATORS and index != len(splitted_str) - 1 and
+                splitted_str[index + 1] == "+" and
+                type(splitted_str[index + 2]) == float):
+            splitted_str.pop(index + 1)
+
         elif ((value == "-" and index == 0) and
                 index != len(splitted_str) - 1 and
                 type(splitted_str[index + 1]) == float):
             splitted_str[index + 1] = float('-' + str(splitted_str[index + 1]))
             splitted_str.pop(index)
 
+        elif ((value == "+" and index == 0) and
+                index != len(splitted_str) - 1 and
+                type(splitted_str[index + 1]) == float):
+            splitted_str.pop(index)
+
         elif (value in OPERATORS and index != len(splitted_str) - 1 and
                 splitted_str[index + 1] == "-" and
                 splitted_str[index + 2] in config.FUNCTIONS):
             splitted_str[index + 1] = 'neg'
+
+        elif (value in OPERATORS and index != len(splitted_str) - 1 and
+                splitted_str[index + 1] == "+" and
+                splitted_str[index + 2] in config.FUNCTIONS):
+            splitted_str.pop(index + 1)
+
         elif ((value == "-" and index == 0) and
                 index != len(splitted_str) - 1 and
                 splitted_str[index + 1] in config.FUNCTIONS):
             splitted_str[index] = 'neg'
+
+        elif ((value == "+" and index == 0) and
+                index != len(splitted_str) - 1 and
+                splitted_str[index + 1] in config.FUNCTIONS):
+            splitted_str.pop(index)
 
     if 'log' in splitted_str:
         for index, value in enumerate(splitted_str):
